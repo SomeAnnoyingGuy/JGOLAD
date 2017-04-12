@@ -246,7 +246,7 @@ public class Cellstate {
 	
 	
 	public static Cellstate[] corpseStates = new Cellstate[50];
-	private static BufferedImage corpseImg = ImageUtil.loadImage("/corpsecolors.png");
+	private static BufferedImage corpseImg = ImageUtil.loadImage("/images/corpsecolors.png");
 	static{
 		Cellstate last = null;
 		for(int i = 1; i <= corpseStates.length; i++){

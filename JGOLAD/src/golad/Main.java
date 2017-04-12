@@ -45,7 +45,7 @@ public class Main {
 		frame.setIgnoreRepaint(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		BufferedImage logo = ImageUtil.loadImage("/Logo.png");
+		BufferedImage logo = ImageUtil.loadImage("/images/Logo.png");
 
 		Font optionFont = new Font("Calibri", 0, 40);
 		Font plrFont = new Font("Tahoma", 0, 20);

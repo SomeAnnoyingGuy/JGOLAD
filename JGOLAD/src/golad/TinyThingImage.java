@@ -10,7 +10,7 @@ public class TinyThingImage extends TinyThing {
 		super(ticks-1);
 		textures = new BufferedImage[ticks];
 		for(int i = 0; i < textures.length; i++){
-			textures[i] = ImageUtil.loadImage("/"+name+"_"+i+".png");
+			textures[i] = ImageUtil.loadImage("/images/"+name+"_"+i+".png");
 		}
 	}
 
