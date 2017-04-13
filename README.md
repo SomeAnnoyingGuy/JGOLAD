@@ -12,20 +12,34 @@ https://discord.gg/xg7Bt7k
 # Features
 
 > A large variety of cells that don't exist anywhere else like 'eaters' or 'double cells'. Using this, weird creations are possible.
+
 > 4 player local game support
+
 > Built in popular rules like High Life, and the ability to enter custom rules
+
 > 'Corpse' cells support (up to 50, these guys exist in rules like the Star Wars life)
+
 > Save and Load boards using the Java Serializable format for sharing
+
 > Crappy but useful controls
+
 > Sandbox mode and a local game mode
+
 > A rainbow mode that can make very pretty reactions
+
 > A hard to use but somewhat useful rule guesser that lets you see which lifeforms exist in which rules
 
+
 '\' (Backslash) - Moves the sandbox in real time, or submits a move in local games
+
 ']' - Moves the sandbox simulation forward 1 generation
+
 '[' - Moves the sandbox simulation forward 10 generations
+
 shift+'[' - Forward 100 generations
+
 ctrl+'[' - Forward 1000 generations (warning, may be really slow)
+
 
 -----------------------------------------
 
@@ -73,20 +87,35 @@ Kiza / SomeAnnoyingGuy
 ### Special thanks
 
 ALPHA TESTERS
+
 Clud
+
 Dragamu
+
 Pika Animation
+
 Acefire
+
 Adamthedog
+
 Endr
+
 Hans
+
 Harry
+
 Meme Producer II
+
 Seanimations
+
 ThePlateGuy
+
 Bong
+
 Superth1
+
 Manny
+
 
 BETA TESTERS
 Beta is still in progress, so they will be listed later
