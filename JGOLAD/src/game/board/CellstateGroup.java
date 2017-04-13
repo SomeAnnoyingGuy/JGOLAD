@@ -1,4 +1,4 @@
-package golad;
+package game.board;
 
 import java.util.ArrayList;
 

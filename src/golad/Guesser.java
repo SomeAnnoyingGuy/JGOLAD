@@ -2,11 +2,6 @@ package golad;
 
 import java.io.File;
 
-import game.board.Board;
-import game.board.Cellstate;
-import util.SerializeUtil;
-import util.WinUtil;
-
 public class Guesser {
 	public static void start() {
 		WinUtil.display("Note: This is a fun little feature that may not survive in later releases.\n"

@@ -21,17 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
-import game.Game;
-import game.GameSandbox;
-import game.Player;
-import game.board.Board;
-import game.board.Cellstate;
-import game.rules.LifeRules;
-import util.ImageUtil;
-import util.IntroCrap;
-import util.TinyThing;
-import window.GameSetupWindow;
-
 public class Main {
 	public static int FPS = 20;
 

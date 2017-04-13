@@ -1,4 +1,4 @@
-package golad;
+package util;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

@@ -1,9 +1,12 @@
-package golad;
+package window;
 
 import java.awt.Graphics;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
+
+import game.board.Cellstate;
+import game.board.CellstateGroup;
 
 public class JPanelCellGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
