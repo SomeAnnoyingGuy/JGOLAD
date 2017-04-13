@@ -19,6 +19,7 @@ import java.util.Iterator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 
 public class Main {
 	public static int FPS = 20;
@@ -41,6 +42,9 @@ public class Main {
 	private static JFrame frame;
 	
 	public static void main(String[] args) {
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		
 		frame = new JFrame("JGOLAD Beta");
 		frame.setIgnoreRepaint(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

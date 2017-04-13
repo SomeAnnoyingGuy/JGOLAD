@@ -26,6 +26,7 @@ public class Cellstate {
 		cellstates.put(id, this);
 		this.c = c;
 		this.name = name;
+		this.setGroup(CellstateGroup.ALL);
 	}
 	
 	public Color getColor(){
@@ -148,29 +149,36 @@ public class Cellstate {
 		return this;
 	}
 	
+	public Cellstate setGroup(CellstateGroup group){
+		if(this.getID() != 0){
+			group.add(this);
+		}
+		return this;
+	}
+	
 	public static int getMaxCorpses(){
 		return corpseStates.length;
 	}
 
 	public static Cellstate DEAD = new Cellstate(Color.black,"Dead").setCompetitiveness(0).setLiving(false);
-	public static Cellstate NEUTRAL = new Cellstate(Color.white,"Neutral").setCompetitiveness(0);
-	public static Cellstate PL1 = new Cellstate(Color.red,"P1");
-	public static Cellstate PL2 = new Cellstate(Color.blue,"P2");
-	public static Cellstate PL3 = new Cellstate(new Color(204,204,0),"P3");
-	public static Cellstate PL4 = new Cellstate(Color.green,"P4");
-	public static Cellstate DUMMY = new Cellstate(Color.orange,"Dummy").setCompetitiveness(0);
-	public static Cellstate SHY = new Cellstate(Color.pink.darker(),"Shy").setCompetitiveness(1);
-	public static Cellstate VOID = new Cellstate(Color.DARK_GRAY,"Always Dead").setCompetitiveness(0).setLiving(false).setDies(false);
-	public static Cellstate LIFEGIVER = new Cellstate(Color.pink,"Always Living").setCompetitiveness(0).setDies(false);
-	public static Cellstate NEVERDEAD = new Cellstate(Color.LIGHT_GRAY,"Never Dead").setDies(false);
-	public static Cellstate NEVERDEADSHY = new Cellstate(new Color(166,175,86),"Shyly Never Dead").setDies(false).setCompetitiveness(1);
-	public static Cellstate KILLER = new Cellstate(new Color(100,0,0),"Killer Cell").setSurroundPoints(-100).setDies(false).setCompetitiveness(0);
-	public static Cellstate NEGATIVE = new Cellstate(new Color(160,0,0),"Negative Cell").setSurroundPoints(-1).setDies(false).setCompetitiveness(0);
-	public static Cellstate DOUBLE = new Cellstate(new Color(160,180,80),"Double Cell").setSurroundPoints(2).setDies(false).setCompetitiveness(0);
-	public static Cellstate TRIPLE = new Cellstate(new Color(210,210,110),"Triple Cell").setSurroundPoints(3).setDies(false).setCompetitiveness(0);
-	public static Cellstate NEGATIVESPREAD = new Cellstate(new Color(160,0,0).darker(),"Negative Cell (Spreads)").setSurroundPoints(-1);
-	public static Cellstate DOUBLESPREAD = new Cellstate(new Color(160,180,80).darker(),"Double Cell (Spreads)").setSurroundPoints(2);
-	public static Cellstate TRIPLESPREAD = new Cellstate(new Color(210,210,110).darker(),"Triple Cell (Spreads)").setSurroundPoints(3);
+	public static Cellstate NEUTRAL = new Cellstate(Color.white,"Neutral").setCompetitiveness(0).setGroup(CellstateGroup.BASIC).setGroup(CellstateGroup.CORPSE);
+	public static Cellstate PL1 = new Cellstate(Color.red,"P1").setGroup(CellstateGroup.BASIC);
+	public static Cellstate PL2 = new Cellstate(Color.blue,"P2").setGroup(CellstateGroup.BASIC);
+	public static Cellstate PL3 = new Cellstate(new Color(204,204,0),"P3").setGroup(CellstateGroup.BASIC);
+	public static Cellstate PL4 = new Cellstate(Color.green,"P4").setGroup(CellstateGroup.BASIC);
+	public static Cellstate DUMMY = new Cellstate(Color.orange,"Dummy").setCompetitiveness(0).setGroup(CellstateGroup.BASIC);
+	public static Cellstate SHY = new Cellstate(Color.pink.darker(),"Shy").setCompetitiveness(1).setGroup(CellstateGroup.BASIC);
+	public static Cellstate VOID = new Cellstate(Color.DARK_GRAY,"Always Dead").setCompetitiveness(0).setLiving(false).setDies(false).setGroup(CellstateGroup.ODD);
+	public static Cellstate LIFEGIVER = new Cellstate(Color.pink,"Always Living").setCompetitiveness(0).setDies(false).setGroup(CellstateGroup.ODD);
+	public static Cellstate NEVERDEAD = new Cellstate(Color.LIGHT_GRAY,"Never Dead").setDies(false).setGroup(CellstateGroup.ODD);
+	public static Cellstate NEVERDEADSHY = new Cellstate(new Color(166,175,86),"Shyly Never Dead").setDies(false).setCompetitiveness(1).setGroup(CellstateGroup.ODD);
+	public static Cellstate KILLER = new Cellstate(new Color(100,0,0),"Killer Cell").setSurroundPoints(-100).setDies(false).setCompetitiveness(0).setGroup(CellstateGroup.ODD);
+	public static Cellstate NEGATIVE = new Cellstate(new Color(160,0,0),"Negative Cell").setSurroundPoints(-1).setDies(false).setCompetitiveness(0).setGroup(CellstateGroup.ODD);
+	public static Cellstate DOUBLE = new Cellstate(new Color(160,180,80),"Double Cell").setSurroundPoints(2).setDies(false).setCompetitiveness(0).setGroup(CellstateGroup.ODD);
+	public static Cellstate TRIPLE = new Cellstate(new Color(210,210,110),"Triple Cell").setSurroundPoints(3).setDies(false).setCompetitiveness(0).setGroup(CellstateGroup.ODD);
+	public static Cellstate NEGATIVESPREAD = new Cellstate(new Color(160,0,0).darker(),"Negative Cell (Spreads)").setSurroundPoints(-1).setGroup(CellstateGroup.ODD);
+	public static Cellstate DOUBLESPREAD = new Cellstate(new Color(160,180,80).darker(),"Double Cell (Spreads)").setSurroundPoints(2).setGroup(CellstateGroup.ODD);
+	public static Cellstate TRIPLESPREAD = new Cellstate(new Color(210,210,110).darker(),"Triple Cell (Spreads)").setSurroundPoints(3).setGroup(CellstateGroup.ODD);
 	
 	public static Cellstate ANTIEATER = new Cellstate(new Color(247,110,120),"Anti-Eater"){
 		@Override
@@ -185,21 +193,21 @@ public class Cellstate {
 		public int getCompetitiveness() {
 			return 1000;
 		}
-	};
+	}.setGroup(CellstateGroup.BASIC);
 
 	public static Cellstate EATER = new Cellstate(new Color(6,208,248),"Eater"){
 		@Override
 		public int getCompeteBoost(HashMap<Byte, Integer> retVals, int x, int y){
 			return 10;
 		}
-	};
+	}.setGroup(CellstateGroup.BASIC);
 	
-	public static Cellstate WIRE = new CellstateWire(new Color(0,53,3),"Wire").setLiving(false).setDies(false);
-	public static Cellstate ELECTRONTAIL = new Cellstate(new Color(116,120,122),"Electron Tail").setLiving(false).setCorpse(WIRE);
-	public static Cellstate ELECTRON = new Cellstate(new Color(0,190,122),"Electron").setLiving(false).setAutoDies(true).setCorpse(ELECTRONTAIL);
+	public static Cellstate WIRE = new CellstateWire(new Color(0,53,3),"Wire").setLiving(false).setDies(false).setGroup(CellstateGroup.WIRE);
+	public static Cellstate ELECTRONTAIL = new Cellstate(new Color(116,120,122),"Electron Tail").setLiving(false).setCorpse(WIRE).setGroup(CellstateGroup.WIRE);
+	public static Cellstate ELECTRON = new Cellstate(new Color(0,190,122),"Electron").setLiving(false).setAutoDies(true).setCorpse(ELECTRONTAIL).setGroup(CellstateGroup.WIRE);
 	
-	public static Cellstate MACHINE_LIFEPLACER = new CellstateMachinePlacer(new Color(0,116,122), "Life Placer Machine",DEAD.getID(),NEUTRAL.getID(),ELECTRON.getID(),1);
-	public static Cellstate MACHINE_ELECTRONPLACER = new CellstateMachinePlacer(new Color(0,116,122).darker(), "Electron Placer Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),1);
+	public static Cellstate MACHINE_LIFEPLACER = new CellstateMachinePlacer(new Color(0,116,122), "Life Placer Machine",DEAD.getID(),NEUTRAL.getID(),ELECTRON.getID(),1).setGroup(CellstateGroup.WIRE);
+	public static Cellstate MACHINE_ELECTRONPLACER = new CellstateMachinePlacer(new Color(0,116,122).darker(), "Electron Placer Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),1).setGroup(CellstateGroup.WIRE);
 	public static Cellstate MACHINE_ELECTRONPLACERIQUICK = new CellstateMachinePlacer(new Color(0,116,122).darker(), "IQuick Electron P. Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),0){
 		@Override
 		public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
@@ -210,8 +218,7 @@ public class Cellstate {
 				boardNew[x][y] = getID();
 			}
 		}
-		
-	};
+	}.setGroup(CellstateGroup.WIRE);;
 
 	public static Cellstate CHEATER = new Cellstate(new Color(200,125,60), "Forced Cell"){
 		public boolean isIrregular(){
@@ -242,7 +249,7 @@ public class Cellstate {
 				}
 			}
 		}
-	}.setLiving(false);
+	}.setLiving(false).setGroup(CellstateGroup.ODD);
 	
 	
 	public static Cellstate[] corpseStates = new Cellstate[50];
@@ -250,7 +257,7 @@ public class Cellstate {
 	static{
 		Cellstate last = null;
 		for(int i = 1; i <= corpseStates.length; i++){
-			Cellstate cs = new Cellstate(new Color(corpseImg.getRGB(i-1, 0)), "Corpse " + i).setLiving(false);
+			Cellstate cs = new Cellstate(new Color(corpseImg.getRGB(i-1, 0)), "Corpse " + i).setLiving(false).setGroup(CellstateGroup.CORPSE);
 			cs.setCorpseID(i);
 			if(last != null){
 				cs.setCorpse(last);
@@ -260,5 +267,16 @@ public class Cellstate {
 		}
 	}
 	
-	public static Cellstate CORPSEBOMB = new Cellstate(new Color(178,0,255),"Corpse Bomb").setCorpse(corpseStates[corpseStates.length-1]);
+	public static Cellstate CORPSEBOMB = new Cellstate(new Color(178,0,255),"Corpse Bomb").setCorpse(corpseStates[corpseStates.length-1]).setGroup(CellstateGroup.CORPSE).setGroup(CellstateGroup.ODD);
+
+	public String getHTMLSummary() {
+		String b = "<br>";
+		String classname = this.getClass().getName();
+		String ret = "ID: " + this.getID()+b;
+		ret += "Living: " + this.isAlive() + b;
+		ret += "Dies: " + this.getDies()+b;
+		ret += "Corpse: " + this.getCorpse()+b;
+		ret += "Irregular: " + this.isIrregular()+" ("+classname+")"+b;
+		return ret;
+	}
 }

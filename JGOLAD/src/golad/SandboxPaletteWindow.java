@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Iterator;
 
@@ -13,11 +16,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JLabel;
 
 public class SandboxPaletteWindow {
 
+	private JLabel lblSelected;
 	private JFrame frmPalette;
-	private JComboBox<Cellstate> comboBoxCellstate;
+	//private JComboBox<Cellstate> comboBoxCellstate;
 	
 	public SandboxPaletteWindow() {
 	}
@@ -28,27 +34,27 @@ public class SandboxPaletteWindow {
 	public void initialize() {
 		frmPalette = new JFrame();
 		frmPalette.setTitle("Palette");
-		frmPalette.setBounds(100, 100, 200, 300);
+		frmPalette.setBounds(100, 100, 250, 440);
 		frmPalette.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmPalette.setType(Type.UTILITY);
 		frmPalette.getContentPane().setLayout(null);
 		frmPalette.setAlwaysOnTop(true);
 		frmPalette.setResizable(false);
 
-		comboBoxCellstate = new JComboBox<Cellstate>();
-		comboBoxCellstate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.sandboxByte = ((Cellstate) comboBoxCellstate.getSelectedItem()).getID();
-			}
-		});
-		Iterator<Cellstate> it = Cellstate.getAll().iterator();
-		while (it.hasNext()) {
-			comboBoxCellstate.addItem(it.next());
-		}
-		comboBoxCellstate.setSelectedItem(Cellstate.NEUTRAL);
-		comboBoxCellstate.setBounds(10, 11, 174, 20);
-		frmPalette.getContentPane().add(comboBoxCellstate);
+//		comboBoxCellstate = new JComboBox<Cellstate>();
+//		comboBoxCellstate.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Main.sandboxByte = ((Cellstate) comboBoxCellstate.getSelectedItem()).getID();
+//			}
+//		});
+//		Iterator<Cellstate> it = Cellstate.getAll().iterator();
+//		while (it.hasNext()) {
+//			comboBoxCellstate.addItem(it.next());
+//		}
+//		comboBoxCellstate.setSelectedItem(Cellstate.NEUTRAL);
+//		comboBoxCellstate.setBounds(10, 11, 174, 20);
+		//frmPalette.getContentPane().add(comboBoxCellstate);
 
 		JButton btnRandomize = new JButton("Generate New...");
 		btnRandomize.addActionListener(new ActionListener() {
@@ -64,7 +70,7 @@ public class SandboxPaletteWindow {
 				}
 			}
 		});
-		btnRandomize.setBounds(10, 203, 174, 23);
+		btnRandomize.setBounds(96, 343, 138, 23);
 		frmPalette.getContentPane().add(btnRandomize);
 
 		JButton buttonClear = new JButton("Clear");
@@ -73,7 +79,7 @@ public class SandboxPaletteWindow {
 				Main.getCurrentBoard().clear();
 			}
 		});
-		buttonClear.setBounds(10, 169, 174, 23);
+		buttonClear.setBounds(10, 343, 76, 23);
 		frmPalette.getContentPane().add(buttonClear);
 
 		JComboBox<LifeRules> comboBoxRules = new JComboBox<LifeRules>();
@@ -89,7 +95,7 @@ public class SandboxPaletteWindow {
 				Main.getCurrentGame().getRules().onSelected();
 			}
 		});
-		comboBoxRules.setBounds(10, 42, 174, 20);
+		comboBoxRules.setBounds(10, 232, 224, 20);
 		frmPalette.getContentPane().add(comboBoxRules);
 
 		JButton btnSave = new JButton("Save");
@@ -101,11 +107,11 @@ public class SandboxPaletteWindow {
 				}
 			}
 		});
-		btnSave.setBounds(10, 237, 81, 23);
+		btnSave.setBounds(10, 377, 101, 23);
 		frmPalette.getContentPane().add(btnSave);
 
 		JCheckBox chckbxToroid = new JCheckBox("Sides loop (Toroidal)");
-		chckbxToroid.setBounds(10, 105, 178, 23);
+		chckbxToroid.setBounds(10, 279, 174, 23);
 		frmPalette.getContentPane().add(chckbxToroid);
 		chckbxToroid.setSelected(Main.getCurrentBoard().isToroidal());
 		chckbxToroid.addItemListener(new ItemListener() {
@@ -129,7 +135,7 @@ public class SandboxPaletteWindow {
 				}
 			}
 		});
-		btnLoad.setBounds(103, 237, 81, 23);
+		btnLoad.setBounds(121, 377, 113, 23);
 		frmPalette.getContentPane().add(btnLoad);
 
 		JButton buttonResize = new JButton("Resize");
@@ -139,11 +145,11 @@ public class SandboxPaletteWindow {
 				Main.getCurrentBoard().resize(size, size);
 			}
 		});
-		buttonResize.setBounds(10, 135, 174, 23);
+		buttonResize.setBounds(10, 309, 224, 23);
 		frmPalette.getContentPane().add(buttonResize);
 		
 		JCheckBox chckbxCrazy = new JCheckBox("Rainbow mode");
-		chckbxCrazy.setBounds(10, 79, 174, 23);
+		chckbxCrazy.setBounds(10, 259, 174, 23);
 		chckbxCrazy.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -151,12 +157,59 @@ public class SandboxPaletteWindow {
 			}
 		});
 		frmPalette.getContentPane().add(chckbxCrazy);
-
+		
+		lblSelected = new JLabel("");
+		lblSelected.setBounds(10, 208, 224, 14);
+		frmPalette.getContentPane().add(lblSelected);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 11, 224, 186);
+		Iterator<CellstateGroup> itGroups = CellstateGroup.getGroupList().iterator();
+		while(itGroups.hasNext()){
+			CellstateGroup cg = itGroups.next();
+			JPanelCellGroup jpcg =  new JPanelCellGroup(cg);
+			jpcg.addMouseListener(new MouseListener(){
+				@Override
+				public void mouseClicked(MouseEvent e) {
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					Cellstate cs = jpcg.getAt(e.getX(), e.getY());
+					setActiveCellstate(cs);
+				}
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+				}
+			});
+			jpcg.addMouseMotionListener(new MouseMotionListener(){
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					mouseMoved(e);
+				}
+				@Override
+				public void mouseMoved(MouseEvent e) {
+					Cellstate cs = jpcg.getAt(e.getX(), e.getY());
+					jpcg.setToolTipText(cs.toString());
+					jpcg.createToolTip().setVisible(true);
+				}
+			});
+			tabbedPane.add(cg.getName(), jpcg);
+		}
+		frmPalette.getContentPane().add(tabbedPane);
+		
 		frmPalette.setVisible(true);
 	}
 
 	public void setActiveCellstate(Cellstate cs){
-		this.comboBoxCellstate.setSelectedItem(cs);
+		Main.sandboxByte = cs.getID();
+		lblSelected.setText("Selected: "+cs.toString());
+		lblSelected.setToolTipText("<html>"+lblSelected.getText()+"<br>"+cs.getHTMLSummary()+"</html>");
 	}
 	
 	public void kill() {

@@ -3,7 +3,7 @@ package golad;
 import java.awt.Color;
 
 public class CellstateWire extends Cellstate {
-	private byte powerID;
+	private byte powerID = (byte) (getID()+2); //electron is 2 IDs away
 	
 	public CellstateWire(Color c, String str) {
 		super(c,str);
