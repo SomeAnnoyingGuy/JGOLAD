@@ -30,6 +30,16 @@ public abstract class CellstateMachine extends Cellstate {
 		}
 	}
 	
+	@Override
+	public String getHTMLSummary() {
+		String ret = super.getHTMLSummary();
+		String b = "<br>";
+		ret+= b+b;
+		ret += "Powered by " + Cellstate.getStateFromID(this.getPowerCellID());
+		return ret;
+		
+	}
+	
 	public abstract void onPower(Board board, byte[][] boardNew, int x, int y);
 
 	public byte getPowerCellID() {

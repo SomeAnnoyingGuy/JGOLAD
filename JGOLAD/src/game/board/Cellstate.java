@@ -282,6 +282,7 @@ public class Cellstate {
 		String ret = "ID: " + this.getID()+b;
 		ret += "Living: " + this.isAlive() + b;
 		ret += "Dies: " + this.getDies()+b;
+		ret += "Spreads: " + this.isCompetitive() + " (" + this.getCompetitiveness() + ")"+b;
 		ret += "Corpse: " + this.getCorpse()+b;
 		ret += "Irregular: " + this.isIrregular()+" ("+classname+")"+b;
 		return ret;
