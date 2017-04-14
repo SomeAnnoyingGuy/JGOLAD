@@ -60,7 +60,7 @@ public abstract class LifeRules {
 	public static LifeRules rulesREP = new LifeRulesSimple("Replicator", new int[] { 1,3,5,7 }, new int[] { 1,3,5,7 });
 	public static LifeRules rulesSEED = new LifeRulesSimple("Seeds", new int[] { }, new int[] { 2 });
 	public static LifeRules rulesGNARL = new LifeRulesSimple("Gnarl", new int[] { 1 }, new int[] { 1 });
-	public static LifeRules rulesFLASH = new LifeRulesSimple("FLASH", new int[] { }, new int[] { 0 });
+	public static LifeRules rules42 = new LifeRulesSimple("rule42", new int[] { 4,2}, new int[] { 4,2 });
 	
 	public static LifeRules rulesZGOL = new LifeRulesSimple("Game of Life and Corpses", new int[] { 2, 3 }, new int[] { 3 }, 1);
 	public static LifeRules rulesSW = new LifeRulesSimple("Star Wars", new int[] { 3,4,5 }, new int[] { 2 }, 4);
