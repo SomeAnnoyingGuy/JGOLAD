@@ -22,7 +22,7 @@ import game.board.Board;
 import game.board.Cellstate;
 import game.board.CellstateGroup;
 import game.rules.LifeRules;
-import golad.Main;
+import jgolad.Main;
 import util.SerializeUtil;
 import util.ShuffleAlgorithm;
 import util.WinUtil;

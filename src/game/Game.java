@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import game.board.Board;
 import game.rules.LifeRules;
-import golad.Main;
+import jgolad.Main;
 import util.WinUtil;
 
 public abstract class Game {

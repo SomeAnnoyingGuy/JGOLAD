@@ -8,7 +8,7 @@ import java.util.HashMap;
 import game.Game;
 import game.rules.LifeRules;
 import game.rules.LifeRulesSimple;
-import golad.Main;
+import jgolad.Main;
 import util.ImageUtil;
 import util.MathUtil;
 

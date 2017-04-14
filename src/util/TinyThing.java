@@ -2,7 +2,7 @@ package util;
 
 import java.awt.Graphics2D;
 
-import golad.Main;
+import jgolad.Main;
 
 public abstract class TinyThing {
 	int tick,tickMax;

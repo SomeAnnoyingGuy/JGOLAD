@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import game.board.Board;
 import game.board.Cellstate;
 import game.rules.LifeRules;
-import golad.Main;
+import jgolad.Main;
 import window.SandboxPaletteWindow;
 
 public class GameSandbox extends Game {

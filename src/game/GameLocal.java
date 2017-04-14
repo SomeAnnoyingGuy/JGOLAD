@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import game.board.Board;
 import game.rules.LifeRules;
-import golad.Main;
+import jgolad.Main;
 
 public class GameLocal extends Game {
 	private int playerID = 0;

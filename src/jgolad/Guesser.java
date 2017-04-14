@@ -1,4 +1,4 @@
-package golad;
+package jgolad;
 
 import java.io.File;
 

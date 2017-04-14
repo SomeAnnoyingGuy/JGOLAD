@@ -7,7 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import golad.Main;
+import jgolad.Main;
 
 public class WinUtil {
 	public static File getUserFile(JFrame frame) {
