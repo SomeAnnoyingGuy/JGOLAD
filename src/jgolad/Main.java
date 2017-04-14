@@ -22,6 +22,7 @@ import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
 import game.Game;
+import game.GameLocal;
 import game.GameSandbox;
 import game.Player;
 import game.board.Board;
@@ -151,6 +152,11 @@ public class Main {
 						g.setColor(Color.white);
 						g.drawString(p.getName(), cStart + 10, yP+g.getFontMetrics().getHeight());
 						g.drawString(currentGame.getPlayerScore(p)+"", cStart + 10, yP+g.getFontMetrics().getHeight()*2);
+						if(pCount == getCurrentGame().getHighlightedPlayerID()){
+							int osize = 20;
+							g.setColor(Color.WHITE);
+							g.fillOval(w-osize, yP + hP/2 - osize/2,osize, osize);
+						}
 						pCount++;
 					}
 				} else {
@@ -297,6 +303,11 @@ public class Main {
 				}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					currentGame.kill();
 					currentGame = null;
+				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+					Game g = getCurrentGame();
+					if(g instanceof GameLocal){
+						((GameLocal)g).space();
+					}
 				}
 			}
 		});

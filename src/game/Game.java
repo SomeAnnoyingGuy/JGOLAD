@@ -93,4 +93,8 @@ public abstract class Game {
 
 	public void onMousePress(MouseEvent e) {
 	}
+	
+	public int getHighlightedPlayerID(){
+		return -1;
+	}
 }
