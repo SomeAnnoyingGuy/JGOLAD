@@ -86,9 +86,9 @@ Kiza / SomeAnnoyingGuy
  
  ----------------------------------------
 
-### Special thanks
+# Special thanks
 
-# Alpha Testers
+### Alpha Testers
 
 Clud
 
@@ -119,6 +119,6 @@ Superth1
 Manny
 
 
-# BETA TESTERS
+### BETA TESTERS
 
 Beta is still in progress, so they will be listed later
