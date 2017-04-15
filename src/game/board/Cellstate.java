@@ -87,7 +87,7 @@ public class Cellstate {
 	public Cellstate getCorpse() {
 		return corpse;
 	}
-	public Cellstate getCorpse(Cellstate def) {
+	public Cellstate getCorpse(Cellstate def, Board board, int x, int y) {
 		if(corpse == null){
 			return def;
 		}
@@ -209,9 +209,33 @@ public class Cellstate {
 		}
 	}.setGroup(CellstateGroup.BASIC);
 	
-	public static Cellstate WIRE = new CellstateWire(new Color(0,53,3),"Wire").setLiving(false).setDies(false).setGroup(CellstateGroup.WIRE);
-	public static Cellstate ELECTRONTAIL = new Cellstate(new Color(116,120,122),"Electron Tail").setLiving(false).setCorpse(WIRE).setGroup(CellstateGroup.WIRE);
-	public static Cellstate ELECTRON = new Cellstate(new Color(0,190,122),"Electron").setLiving(false).setAutoDies(true).setCorpse(ELECTRONTAIL).setGroup(CellstateGroup.WIRE);
+	public static Cellstate ELECTRON = new Cellstate(new Color(0,190,122),"Electron"){
+		@Override
+		public boolean isIrregular(){
+			return true;
+		}
+		@Override
+		public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+			int reg = getSurroundingWirePoints(board, x, y, WIRE);
+			int low = getSurroundingWirePoints(board, x, y, WIRELOW);
+			int hi = getSurroundingWirePoints(board, x, y, WIREHIGH);
+			if(hi > low && hi > reg){
+				boardNew[x][y] = WIREHIGH.getElectronCorpse().getID();
+			}else if(low > hi && low > reg){
+				boardNew[x][y] = WIRELOW.getElectronCorpse().getID();
+			}else {
+				boardNew[x][y] = WIRE.getElectronCorpse().getID();
+			}
+		}
+		private int getSurroundingWirePoints(Board b, int x, int y, CellstateWire wire){
+			return b.getSurroundingOfKind(x, y, wire.getID()) + b.getSurroundingOfKind(x, y, wire.getElectronCorpse().getID());
+		}
+	}.setLiving(false).setAutoDies(true).setGroup(CellstateGroup.WIRE);
+	
+	public static CellstateWire WIRE = (CellstateWire) new CellstateWire(new Color(0,53,3),"Wire",ELECTRON).setLiving(false).setDies(false).setGroup(CellstateGroup.WIRE);
+	public static CellstateWire WIRELOW = ((CellstateWire) new CellstateWire(new Color(3,0,53),"Low Conductivity Wire",ELECTRON).setLiving(false).setDies(false).setGroup(CellstateGroup.WIRE)).setMaxSurroundingPowerCells(1);
+	public static CellstateWire WIREHIGH = ((CellstateWire) new CellstateWire(new Color(53,3,0),"High Conductivity Wire",ELECTRON).setLiving(false).setDies(false).setGroup(CellstateGroup.WIRE)).setMaxSurroundingPowerCells(99);
+	//public static Cellstate ELECTRONTAIL = new Cellstate(new Color(116,120,122),"Electron Tail").setLiving(false).setCorpse(WIRE).setGroup(CellstateGroup.WIRE);
 	
 	public static Cellstate MACHINE_LIFEPLACER = new CellstateMachinePlacer(new Color(0,116,122), "Life Placer Machine",DEAD.getID(),NEUTRAL.getID(),ELECTRON.getID(),1).setGroup(CellstateGroup.WIRE);
 	public static Cellstate MACHINE_ELECTRONPLACER = new CellstateMachinePlacer(new Color(0,116,122).darker(), "Electron Placer Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),1).setGroup(CellstateGroup.WIRE);

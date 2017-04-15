@@ -213,6 +213,8 @@ public class SandboxPaletteWindow {
 		}
 		frmPalette.getContentPane().add(tabbedPane);
 		
+		setActiveCellstate(Cellstate.NEUTRAL);
+		
 		frmPalette.setVisible(true);
 	}
 

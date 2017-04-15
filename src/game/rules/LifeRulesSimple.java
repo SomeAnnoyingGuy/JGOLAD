@@ -48,10 +48,10 @@ public class LifeRulesSimple extends LifeRules {
 					if(survives(surrounding)){
 						return current;
 					}else{
-						return here.getCorpse(getDefaultCorpse()).getID();
+						return here.getCorpse(getDefaultCorpse(), board, x, y).getID();
 					}
 				}else{
-					return here.getCorpse(Cellstate.DEAD).getID();
+					return here.getCorpse(Cellstate.DEAD, board, x, y).getID();
 				}
 			}else{
 				return here.getID();
