@@ -30,7 +30,9 @@ https://discord.gg/xg7Bt7k
 > A hard to use but somewhat useful rule guesser that lets you see which lifeforms exist in which rules
 
 
-'\' (Backslash) - Moves the sandbox in real time, or submits a move in local games
+Backslash - Moves the sandbox in real time, or quickly moves through bot/AI moves in local games
+
+space - Submits a move in local games, or moves through 1 bot/AI move at a time
 
 ']' - Moves the sandbox simulation forward 1 generation
 
@@ -84,9 +86,9 @@ Kiza / SomeAnnoyingGuy
  
  ----------------------------------------
 
-### Special thanks
+# Special thanks
 
-ALPHA TESTERS
+### Alpha Testers
 
 Clud
 
@@ -117,5 +119,6 @@ Superth1
 Manny
 
 
-BETA TESTERS
+### BETA TESTERS
+
 Beta is still in progress, so they will be listed later
