@@ -59,6 +59,7 @@ public class Main {
 		
 		frame = new JFrame("JGOLAD Beta");
 		frame.setIgnoreRepaint(true);
+		frame.setIconImage(ImageUtil.loadImage("/tinylogo.png"));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		BufferedImage logo = ImageUtil.loadImage("/Logo.png");

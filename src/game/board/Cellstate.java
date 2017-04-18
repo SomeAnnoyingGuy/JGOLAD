@@ -249,7 +249,7 @@ public class Cellstate {
 				boardNew[x][y] = getID();
 			}
 		}
-	}.setGroup(CellstateGroup.WIRE);;
+	}.setGroup(CellstateGroup.WIRE);
 
 	public static Cellstate CHEATER = new Cellstate(new Color(200,125,60), "Forced Cell"){
 		public boolean isIrregular(){
