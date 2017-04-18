@@ -143,7 +143,7 @@ public class Cellstate {
 		return false;
 	}
 	
-	public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+	public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 	}
 	
 
@@ -190,24 +190,27 @@ public class Cellstate {
 	public static Cellstate ANTIEATER = new Cellstate(new Color(247,110,120),"Anti-Eater"){
 		@Override
 		public int getCompeteBoost(HashMap<Byte, Integer> retVals, int x, int y){
-			int eaters = Main.getCurrentBoard().getSurroundingOfKind(x, y, EATER.getID());
-			if(eaters > 0){
-				retVals.put(EATER.getID(), -1000);
+			if(Main.getCurrentBoard() != null){
+				int eaters = Main.getCurrentBoard().getSurroundingOfKind(x, y, EATER.getID());
+				if(eaters > 0){
+					retVals.put(EATER.getID(), -1000);
+				}
+				return 1+eaters*100;
 			}
-			return 1+eaters*100;
+			return 1000;
 		}
 		@Override
 		public int getCompetitiveness() {
 			return 1000;
 		}
-	}.setGroup(CellstateGroup.BASIC);
+	}.setGroup(CellstateGroup.ODD);
 
 	public static Cellstate EATER = new Cellstate(new Color(6,208,248),"Eater"){
 		@Override
 		public int getCompeteBoost(HashMap<Byte, Integer> retVals, int x, int y){
 			return 10;
 		}
-	}.setGroup(CellstateGroup.BASIC);
+	}.setGroup(CellstateGroup.ODD);
 	
 	public static Cellstate ELECTRON = new Cellstate(new Color(0,190,122),"Electron"){
 		@Override
@@ -215,7 +218,7 @@ public class Cellstate {
 			return true;
 		}
 		@Override
-		public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+		public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 			int reg = getSurroundingWirePoints(board, x, y, WIRE);
 			int low = getSurroundingWirePoints(board, x, y, WIRELOW);
 			int hi = getSurroundingWirePoints(board, x, y, WIREHIGH);
@@ -241,9 +244,15 @@ public class Cellstate {
 	public static Cellstate MACHINE_ELECTRONPLACER = new CellstateMachinePlacer(new Color(0,116,122).darker(), "Electron Placer Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),1).setGroup(CellstateGroup.WIRE);
 	public static Cellstate MACHINE_ELECTRONPLACERIQUICK = new CellstateMachinePlacer(new Color(0,116,122).darker(), "IQuick Electron P. Machine",WIRE.getID(),ELECTRON.getID(),NEUTRAL.getID(),0){
 		@Override
-		public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
-			int surround = board.getSurroundingOfKind(x, y, getPowerCellID());
-			if(((LifeRulesSimple)game.getRules()).births(surround)){
+		public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
+			boolean isPowered = false;
+			if(game == null){
+				isPowered = true;
+			}else{
+				int surround = board.getSurroundingOfKind(x, y, getPowerCellID());
+				isPowered = ((LifeRulesSimple)game.getRules()).births(surround);
+			}
+			if(isPowered){
 				onPower(board, boardNew, x, y);
 			}else{
 				boardNew[x][y] = getID();
@@ -255,7 +264,8 @@ public class Cellstate {
 		public boolean isIrregular(){
 			return true;
 		}
-		public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+		@Override
+		public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 			LifeRulesSimple cheatRules = (LifeRulesSimple) LifeRules.rulesGOL;
 			for(int placeX = x-1; placeX<=x+1; placeX++){
 				for(int placeY = y-1; placeY<=y+1; placeY++){

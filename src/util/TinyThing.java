@@ -2,43 +2,51 @@ package util;
 
 import java.awt.Graphics2D;
 
-import jgolad.Main;
+import game.board.Board;
+import game.board.Cellstate;
+import game.board.CellstateGroup;
+import game.rules.LifeRules;
 
-public abstract class TinyThing {
-	int tick,tickMax;
-	int tickBuffer = 0;
-	int tickBufferMax = Main.FPS/3;
-	public TinyThing(int ticks){
-		tick = 0;
-		tickMax = ticks;
-	}
-	public void renderStart(Graphics2D g, int yOff){
-		render(g,yOff);
-		tickBuffer++;
-		if(tickBuffer > tickBufferMax){
-			tick++;
-			tickBuffer = 0;
+public class TinyThing extends Board {
+	private static final long serialVersionUID = 1L;
+	
+	LifeRules rules;
+	
+	public TinyThing(){
+		super(60);
+		for(int x = 0; x < this.getWidth(); x++){
+			for(int y = 0; y < this.getHeight(); y++){
+				if(MathUtil.randInt(1, 3) == 1){
+					byte place;
+					int rand = MathUtil.randInt(1, 10);
+					if(rand < 10){
+						place = Cellstate.NEUTRAL.getID();
+					}else{
+						if(MathUtil.randInt(0, 60) == 5){
+							place = CellstateGroup.ODD.getRandom().getID();
+						}else{
+							place = CellstateGroup.BASIC.getRandom().getID();
+						}
+					}
+					this.setAt(x, y, place);
+				}
+			}
 		}
-		if(tick > tickMax){
-			tick = 0;
+		if(MathUtil.randInt(0, 2)==1){
+			rules = LifeRules.rulesGOL;
+		}else{
+			rules = LifeRules.getRuleList().get(MathUtil.randInt(0, LifeRules.getRuleList().size()-1));
 		}
 	}
-	protected abstract void render(Graphics2D g, int yOff);
 	
-	public static TinyThing blinker = new TinyThingImage(2, "blinker");
-	public static TinyThing beacon = new TinyThingImage(2, "beacon");
-	public static TinyThing toad = new TinyThingImage(2, "toad");
-	
-	public static TinyThing block = new TinyThingImage(1, "block");
-	public static TinyThing beehive = new TinyThingImage(1, "beehive");
-	public static TinyThing loaf = new TinyThingImage(1, "loaf");
-	public static TinyThing boat = new TinyThingImage(1, "boat");
-	public static TinyThing tub = new TinyThingImage(1, "tub");
-	
-	public static TinyThing tieBoat = new TinyThingImage(1, "boattie");
-	public static TinyThing tieShip = new TinyThingImage(1, "shiptie");
-
-	public static TinyThing eater1 = new TinyThingImage(1, "eater1");
-	public static TinyThing eater5 = new TinyThingImage(1, "eater5");
-
+	public void render(Graphics2D g, int yOff) {
+		this.updateAll(null, rules);
+		int size = 5;
+		for(int x = 0; x < this.getWidth(); x++){
+			for(int y = 0; y < this.getHeight(); y++){
+				g.setColor(this.getColorFor(x, y));
+				g.fillRect(550+x*size, y*size + yOff + 50, size, size);
+			}
+		}
+	}
 }

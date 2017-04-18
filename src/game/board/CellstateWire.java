@@ -3,6 +3,7 @@ package game.board;
 import java.awt.Color;
 
 import game.Game;
+import game.rules.LifeRules;
 
 public class CellstateWire extends Cellstate {
 	private byte powerID; //electron is 2 IDs away
@@ -20,7 +21,7 @@ public class CellstateWire extends Cellstate {
 	}
 	
 	@Override
-	public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+	public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 		int surround = board.getSurroundingOfKind(x, y, powerID);
 		if(surround>0 && surround<=maxSurroundingPowerCells){
 			boardNew[x][y] = powerID;

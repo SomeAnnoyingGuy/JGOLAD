@@ -164,9 +164,9 @@ public class Main {
 					int lh = (int) ((double) logo.getHeight() * ((double) w / (double) logo.getWidth()));
 					g.drawImage(logo, 0, 0, w, lh, null);
 					timeThing++;
-					tinything.renderStart(g,lh);
+					tinything.render(g,lh);
 					g.setColor(new Color(0, 0, 0, (int) (255 * (fade / timeFade))));
-					g.fillRect(650, lh+100, 200, 200);
+					g.fillRect(550, lh+50, 300, 300);
 					if (timeThing >= timeThingMax) {
 						timeThing = 0;
 						tinything = IntroCrap.getRandomTinyThing();

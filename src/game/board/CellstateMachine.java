@@ -21,9 +21,9 @@ public abstract class CellstateMachine extends Cellstate {
 	}
 	
 	@Override
-	public void doIrregularUpdate(Game game, Board board, byte[][] boardNew, int x, int y){
+	public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 		int surround = board.getSurroundingOfKind(x, y, getPowerCellID());
-		if(surround>=getPowerCellCount(game.getRules())){
+		if(surround>=getPowerCellCount(rules)){
 			onPower(board, boardNew, x, y);
 		}else{
 			boardNew[x][y] = getID();

@@ -143,7 +143,7 @@ public class Board implements Serializable {
 				byte here = getAt(x,y);
 				Cellstate cshere = Cellstate.getStateFromID(here);
 				if(cshere.isIrregular()){
-					cshere.doIrregularUpdate(game,this,newBoard,x,y);
+					cshere.doIrregularUpdate(game,rules,this,newBoard,x,y);
 				}else{
 					newBoard[x][y] = rules.getNew(this,x,y,here,getSurroundingLiving(x,y),newBoard[x][y]);
 				}

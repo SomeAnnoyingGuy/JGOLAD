@@ -2,6 +2,8 @@ package game.board;
 
 import java.util.ArrayList;
 
+import util.MathUtil;
+
 public class CellstateGroup extends ArrayList<Cellstate>{
 	private static final long serialVersionUID = 1;
 	
@@ -25,6 +27,10 @@ public class CellstateGroup extends ArrayList<Cellstate>{
 	
 	public static ArrayList<CellstateGroup> getGroupList(){
 		return groupList;
+	}
+	
+	public Cellstate getRandom() {
+		return this.get(MathUtil.randInt(0, this.size()-1));
 	}
 	
 	public static final CellstateGroup ALL = new CellstateGroup("All");
