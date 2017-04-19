@@ -14,7 +14,6 @@ public class CellstateGroup extends ArrayList<Cellstate>{
 	public CellstateGroup(String name){
 		setName(name);
 		getGroupList().add(this);
-		this.remove(Cellstate.DEAD);
 	}
 
 	public String getName() {

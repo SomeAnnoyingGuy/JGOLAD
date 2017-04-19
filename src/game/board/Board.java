@@ -1,6 +1,8 @@
 package game.board;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +11,7 @@ import game.Game;
 import game.Player;
 import game.rules.LifeRules;
 import util.HueSine;
+import util.ImageUtil;
 import util.MathUtil;
 
 public class Board implements Serializable {
@@ -278,5 +281,15 @@ public class Board implements Serializable {
 				census.modScore(getAt(x,y), 1);
 			}
 		}
+	}
+
+	public void saveImage() {
+		BufferedImage img = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_ARGB);
+		for(int x = 0; x < this.getWidth(); x++){
+			for(int y = 0; y < this.getHeight(); y++){
+				img.setRGB(x, y, this.getColorFor(x, y).getRGB());
+			}
+		}
+		ImageUtil.saveImage(img, new File("SavedImg-"+System.currentTimeMillis()+".png"));
 	}
 }

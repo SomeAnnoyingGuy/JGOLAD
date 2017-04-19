@@ -309,6 +309,11 @@ public class Main {
 					if(g instanceof GameLocal){
 						((GameLocal)g).space();
 					}
+				}else if(e.getKeyCode() == KeyEvent.VK_S){
+					Board board = getCurrentBoard();
+					if(board != null){
+						board.saveImage();
+					}
 				}
 			}
 		});

@@ -35,6 +35,7 @@ public class GameSandbox extends Game {
 
 	@Override
 	public void kill() {
+		Board.crazymode = false;
 		spw.kill();
 	}
 
