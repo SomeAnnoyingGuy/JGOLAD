@@ -19,7 +19,7 @@ https://discord.gg/xg7Bt7k
 
 > 'Corpse' cells support (up to 50, these guys exist in rules like the Star Wars life)
 
-> Save and Load boards using the Java Serializable format for sharing
+> Save and Load boards using the Java Serializable (SER) format for sharing, as well as more human readable PNG files
 
 > Crappy but useful controls
 
@@ -41,6 +41,8 @@ space - Submits a move in local games, or moves through 1 bot/AI move at a time
 shift+'[' - Forward 100 generations
 
 ctrl+'[' - Forward 1000 generations (warning, may be really slow)
+
+'s' - Saves the board as a lightweight png file to your hard drive
 
 
 -----------------------------------------

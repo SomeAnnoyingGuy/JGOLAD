@@ -327,6 +327,8 @@ public class Main {
 				frame.repaint();
 			}
 		});
+		//Static declarations may need to 'catch up'
+		repainter.setInitialDelay(repainter.getDelay()*2);
 
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
