@@ -29,7 +29,11 @@ public class CellstateGroup extends ArrayList<Cellstate>{
 	}
 	
 	public Cellstate getRandom() {
-		return this.get(MathUtil.randInt(0, this.size()-1));
+		if(this.isEmpty()){
+			return Cellstate.NEUTRAL;
+		}else{
+			return this.get(MathUtil.randInt(0, this.size()-1));
+		}
 	}
 	
 	public static final CellstateGroup ALL = new CellstateGroup("All");

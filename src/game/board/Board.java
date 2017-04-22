@@ -72,20 +72,29 @@ public class Board implements Serializable {
 		getCellArr()[x][y] = b;
 	}
 
+	public int[] forceIntoBounds(int x, int y){
+		//For some reason trying to make this with modulo won't work
+		//If someone could fix that, that'd be amazing
+		while(x >= this.getWidth()){
+			x -= this.getWidth();
+		}
+		while(y >= this.getHeight()){
+			y -= this.getHeight();
+		}
+		while(x < 0){
+			x += this.getWidth();
+		}
+		while(y < 0){
+			y += this.getHeight();
+		}
+		return new int[]{x,y};
+	}
+	
 	public byte getAt(int x, int y) {
 		if(isToroidal()){
-			while(x >= this.getWidth()){
-				x -= this.getWidth();
-			}
-			while(y >= this.getHeight()){
-				y -= this.getHeight();
-			}
-			while(x < 0){
-				x += this.getWidth();
-			}
-			while(y < 0){
-				y += this.getHeight();
-			}
+			int[] forced = forceIntoBounds(x,y);
+			x = forced[0];
+			y = forced[1];
 		}
 		if (!isInBounds(x,y)) {
 			return Cellstate.DEAD.getID();
