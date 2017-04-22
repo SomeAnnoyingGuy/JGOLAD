@@ -24,8 +24,15 @@ public class CellstateMachinePlacer extends CellstateMachine {
 	}
 	
 	private void attemptPlace(Board board, byte[][] boardNew, int x, int y, byte place){
-		if(board.getAt(x, y)==getReplaceID()){
-			boardNew[x][y] = place;
+		if(board.isToroidal()){
+			int[] forced = board.forceIntoBounds(x, y);
+			x = forced[0];
+			y = forced[1];
+		}
+		if(board.isInBounds(x, y)){
+			if(board.getAt(x, y)==getReplaceID()){
+				boardNew[x][y] = place;
+			}
 		}
 	}
 
