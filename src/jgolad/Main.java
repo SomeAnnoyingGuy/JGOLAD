@@ -302,8 +302,10 @@ public class Main {
 						ga.getBoard().updateCensus();
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-					currentGame.kill();
-					currentGame = null;
+					if(currentGame != null){
+						currentGame.kill();
+						currentGame = null;
+					}
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
