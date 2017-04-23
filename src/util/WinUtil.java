@@ -3,10 +3,14 @@ package util;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -63,12 +67,11 @@ public class WinUtil {
 		type = type.toLowerCase();
 		if (!Arrays.asList(types).contains(type))
 			throw new IllegalArgumentException("Invalid or unsuported type");
-
-		System.out.println("creating dialog");
+		
 		TableDialog td = new TableDialog(Main.getFrame(), msg, width, height, type);
 		td.setVisible(true);
 		td.dispose();
-		System.out.println("dialog after setVisible");
+		data = td.getData();
 		return data;
 	}
 
@@ -77,8 +80,17 @@ public class WinUtil {
 @SuppressWarnings("serial")
 class TableDialog extends JDialog {
 
+	private int width;
+	private int height;
+	private String type;
+	private Component[][] inputs;
+	
 	public TableDialog(JFrame parrent, String msg, int width, int height, String type) {
 		super(parrent);
+		this.width = width;
+		this.height = height;
+		this.type = type;
+		this.inputs = new Component[width][height];
 		this.setModal(true);
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -98,10 +110,45 @@ class TableDialog extends JDialog {
 				if (type == "bool" || type == "boolean") {
 					inputObject = new JCheckBox();
 				}
+				inputs[i][j] = inputObject;
 				add(inputObject, c);
 			}
 		}
+		
+		c.gridx = 0;
+		c.gridy = height+1;
+		c.gridwidth = width;
+		JButton confirm = new JButton("Confirm");
+		confirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}});
+		add(confirm, c);
+		
 		this.pack();
-		this.setLocationRelativeTo(Main.getFrame());
+		this.setLocationRelativeTo(parrent);
+	}
+	
+	public Object[][] getData() {
+		Object[][] data = new Object[this.width][this.height];
+		for (int i = 0; i < this.width; i++) {
+			for (int j = 0; j < this.height; j++) {
+				if (type == "string") {
+					data[i][j] = ((JTextField) this.inputs[i][j]).getText();
+				}
+				if (type == "int") {
+					try {
+						data[i][j] = Integer.parseInt(((JTextField) this.inputs[i][j]).getText());
+					} catch (Exception e) {
+						data[i][j] = 0;
+					}
+				}
+				if (type == "bool" || type == "boolean") {
+					data[i][j] = ((JCheckBox) this.inputs[i][j]).isSelected();
+				}
+			}
+		}
+		return data;
 	}
 }
