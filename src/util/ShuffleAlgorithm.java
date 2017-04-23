@@ -187,7 +187,28 @@ public abstract class ShuffleAlgorithm {
 				}
 			}
 		}
-	} };
+	}, new ShuffleAlgorithm("Board Filler by IQuick") {
+		@Override
+		public void shuffle(Board bo, int w, int h) {
+			int width = WinUtil.getInputInt("Width of your pattern:", 5);
+			int height = WinUtil.getInputInt("Height of your pattern:", 5);
+			Object[][] input = WinUtil.getInputTable("Specify your pattern:", width, height, "bool");
+			
+			for (int i = 0; i < w; i += width) {
+				for (int j = 0; j < h; j += height) {
+					for (int a = 0; a < width; a++) {
+						for (int b = 0; b < height; b++) {
+							if (i+a < w && j+b < h) {
+								if ((Boolean) input[a][b]) {
+									bo.setAt(i+a, j+b, Cellstate.NEUTRAL.getID());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}};
 
 	public void shuffle(Board board) {
 		shuffle(board, board.getWidth(), board.getHeight());

@@ -44,6 +44,7 @@ ctrl+'[' - Forward 1000 generations (warning, may be really slow)
 
 's' - Saves the board as a lightweight png file to your hard drive
 
+'p' - Enables or disables predictions
 
 -----------------------------------------
 

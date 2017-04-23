@@ -267,8 +267,17 @@ public class Cellstate {
 		@Override
 		public void doIrregularUpdate(Game game, LifeRules rules, Board board, byte[][] boardNew, int x, int y){
 			LifeRulesSimple cheatRules = (LifeRulesSimple) LifeRules.rulesGOL;
-			for(int placeX = x-1; placeX<=x+1; placeX++){
-				for(int placeY = y-1; placeY<=y+1; placeY++){
+			for(int loopX = x-1; loopX<=x+1; loopX++){
+				for(int loopY = y-1; loopY<=y+1; loopY++){
+					int placeX,placeY;
+					if(board.isToroidal()){
+						int[] forced = board.forceIntoBounds(loopX, loopY);
+						placeX = forced[0];
+						placeY = forced[1];
+					}else{
+						placeX = loopX;
+						placeY = loopY;
+					}
 					if(board.isInBounds(placeX, placeY)){
 						byte cs = board.getAt(placeX, placeY);
 						if(cs == Cellstate.DEAD.getID() || cs == this.getID()){
