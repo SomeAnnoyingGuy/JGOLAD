@@ -53,6 +53,8 @@ public class Main {
 	private static JPanel panel;
 	private static JFrame frame;
 	
+	private static Music musicPlayer = new Music("JGOLAD Menu Theme.wav");
+	
 	public static void main(String[] args) {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
@@ -66,7 +68,7 @@ public class Main {
 
 		Font optionFont = new Font("Calibri", 0, 40);
 		Font plrFont = new Font("Tahoma", 0, 20);
-
+		
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 			TinyThing tinything = IntroCrap.getRandomTinyThing();
@@ -193,7 +195,7 @@ public class Main {
 		frame.add(panel);
 		frame.pack();
 		frame.setMinimumSize(frame.getSize());
-
+		
 		panel.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -334,8 +336,8 @@ public class Main {
 
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
 		repainter.start();
+		musicPlayer.start();
 	}
 
 	public static void setCurrentGame(Game g){
