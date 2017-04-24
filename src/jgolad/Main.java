@@ -53,7 +53,9 @@ public class Main {
 	private static JPanel panel;
 	private static JFrame frame;
 	
-	private static Music musicPlayer = new Music("JGOLAD Menu Theme.wav");
+	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
+	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};//{"gameMus1.ogg","gameMus2.ogg"};
+	private static Music musicPlayer = new Music(menuMusicQueue);
 	
 	public static void main(String[] args) {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -253,8 +255,10 @@ public class Main {
 					if (e.getKeyCode() == KeyEvent.VK_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
+						musicPlayer.newSong(gameMusicQueue);
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
+						musicPlayer.newSong(gameMusicQueue);
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
 						Guesser.start();
 					}
@@ -308,6 +312,8 @@ public class Main {
 						currentGame.kill();
 						currentGame = null;
 					}
+					musicPlayer.newSong(menuMusicQueue);
+					//musicPlayer.stop();
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
@@ -345,6 +351,7 @@ public class Main {
 		if(g != null){
 			g.start();
 		}
+		
 	}
 		
 	public static Board getCurrentBoard(){

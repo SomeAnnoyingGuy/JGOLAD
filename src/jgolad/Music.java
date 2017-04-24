@@ -17,15 +17,23 @@ public class Music implements Runnable{
     private AudioInputStream audioStream;
     private AudioFormat audioFormat;
     private SourceDataLine sourceLine;
-    private final String song;
+    private String[] songs;
     private Thread t;
     
-    public Music(String song){
-    	this.song = song;
+    public Music(String[] queue){
+    	this.songs = queue;
+    }
+    public void newSong(String[] queue){
+    	stop();
+		setQueue(queue);
+		start();
     }
     public void run(){
+    	
     	while(true){
-    		playSound(song);
+    		for(String song:songs){
+    			playSound(song);
+    		}
     	}
     }
     public void start(){
@@ -34,9 +42,17 @@ public class Music implements Runnable{
              t.start();
           }
     }
-    
+    public void stop(){  	
+    	songs = new String[0];	
+    	sourceLine.stop();
+    	sourceLine = null;
+    	t.interrupt();
+    	t = null;
+    }
+    public void setQueue(String[] queue){
+    	this.songs = queue;
+    }
     public void playSound(String filename){
-  
 
         String strFilename = filename;
 
