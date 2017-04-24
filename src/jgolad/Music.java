@@ -32,7 +32,9 @@ public class Music implements Runnable{
     	
     	while(true){
     		for(String song:songs){
-    			playSound(song);
+				try{
+					playSound(song);
+				}catch(Exception e){}
     		}
     	}
     }
