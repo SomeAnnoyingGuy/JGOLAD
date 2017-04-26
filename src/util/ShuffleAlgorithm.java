@@ -208,6 +208,11 @@ public abstract class ShuffleAlgorithm {
 				}
 			}
 		}
+	}, new ShuffleAlgorithm("Befunge... cuz why not? -IQuick 2017") {
+		@Override
+		public void shuffle(Board bo, int w, int h) {
+			
+		}
 	}};
 
 	public void shuffle(Board board) {

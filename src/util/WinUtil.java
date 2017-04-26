@@ -9,7 +9,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -63,7 +62,6 @@ public class WinUtil {
 
 	public static Object[][] getInputTable(String msg, int width, int height, String type)
 			throws IllegalArgumentException {
-		Object[][] data = new Object[width][height];
 		type = type.toLowerCase();
 		if (!Arrays.asList(types).contains(type))
 			throw new IllegalArgumentException("Invalid or unsuported type");
@@ -71,10 +69,8 @@ public class WinUtil {
 		TableDialog td = new TableDialog(Main.getFrame(), msg, width, height, type);
 		td.setVisible(true);
 		td.dispose();
-		data = td.getData();
-		return data;
+		return td.getData();
 	}
-
 }
 
 @SuppressWarnings("serial")
