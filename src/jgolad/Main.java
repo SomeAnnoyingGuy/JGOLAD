@@ -55,7 +55,7 @@ public class Main {
 	private static JFrame frame;
 	
 	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
-	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};//{"gameMus1.ogg","gameMus2.ogg"};
+	private static final String[] gameMusicQueue = {};//"gameMus1.wav","gameMus2.wav"};
 	private static Music musicPlayer = new Music(menuMusicQueue);
 	
 	public static void main(String[] args) {
