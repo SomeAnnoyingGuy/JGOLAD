@@ -9,7 +9,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -39,7 +38,7 @@ public class WinUtil {
 	}
 
 	public static String getInput(String message, String def) {
-		String ret = JOptionPane.showInputDialog(Main.getFrame(),message, def);
+		String ret = JOptionPane.showInputDialog(Main.getFrame(), message, def);
 		if (ret == null) {
 			ret = def;
 		}
@@ -67,7 +66,7 @@ public class WinUtil {
 		type = type.toLowerCase();
 		if (!Arrays.asList(types).contains(type))
 			throw new IllegalArgumentException("Invalid or unsuported type");
-		
+
 		TableDialog td = new TableDialog(Main.getFrame(), msg, width, height, type);
 		td.setVisible(true);
 		td.dispose();
@@ -84,7 +83,7 @@ class TableDialog extends JDialog {
 	private int height;
 	private String type;
 	private Component[][] inputs;
-	
+
 	public TableDialog(JFrame parrent, String msg, int width, int height, String type) {
 		super(parrent);
 		this.width = width;
@@ -114,22 +113,23 @@ class TableDialog extends JDialog {
 				add(inputObject, c);
 			}
 		}
-		
+
 		c.gridx = 0;
-		c.gridy = height+1;
+		c.gridy = height + 1;
 		c.gridwidth = width;
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-			}});
+			}
+		});
 		add(confirm, c);
-		
+
 		this.pack();
 		this.setLocationRelativeTo(parrent);
 	}
-	
+
 	public Object[][] getData() {
 		Object[][] data = new Object[this.width][this.height];
 		for (int i = 0; i < this.width; i++) {

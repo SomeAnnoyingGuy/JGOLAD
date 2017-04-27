@@ -31,6 +31,7 @@ import game.rules.LifeRules;
 import util.ImageUtil;
 import util.IntroCrap;
 import util.TinyThing;
+import window.ExtrasMenu;
 import window.GameSetupWindow;
 
 public class Main {
@@ -184,7 +185,7 @@ public class Main {
 					g.setFont(optionFont);
 					g.drawString("[1] Local Game (WIP)", 100, lh+100);
 					g.drawString("[2] Sandbox", 125, lh+150);
-					g.drawString("[3] Rule Guesser", 150, lh+200);
+					g.drawString("[3] Extras", 150, lh+200);
 				}
 			}
 		};
@@ -254,7 +255,8 @@ public class Main {
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
-						Guesser.start();
+						ExtrasMenu em = new ExtrasMenu();
+						em.setVisible(true);
 					}
 				}else{
 					if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
