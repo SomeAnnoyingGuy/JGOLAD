@@ -31,6 +31,7 @@ import game.rules.LifeRules;
 import util.ImageUtil;
 import util.IntroCrap;
 import util.TinyThing;
+import window.ExtrasMenu;
 import window.GameSetupWindow;
 
 public class Main {
@@ -54,7 +55,7 @@ public class Main {
 	private static JFrame frame;
 	
 	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
-	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};//{"gameMus1.ogg","gameMus2.ogg"};
+	private static final String[] gameMusicQueue = {};//"gameMus1.wav","gameMus2.wav"};
 	private static Music musicPlayer = new Music(menuMusicQueue);
 	
 	public static void main(String[] args) {
@@ -188,7 +189,7 @@ public class Main {
 					g.setFont(optionFont);
 					g.drawString("[1] Local Game (WIP)", 100, lh+100);
 					g.drawString("[2] Sandbox", 125, lh+150);
-					g.drawString("[3] Rule Guesser", 150, lh+200);
+					g.drawString("[3] Extras", 150, lh+200);
 				}
 			}
 		};
@@ -260,7 +261,8 @@ public class Main {
 						setCurrentGame(GameSetupWindow.createGame());
 						musicPlayer.newSong(gameMusicQueue);
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
-						Guesser.start();
+						ExtrasMenu em = new ExtrasMenu();
+						em.setVisible(true);
 					}
 				}else{
 					if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
