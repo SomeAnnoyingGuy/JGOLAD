@@ -317,11 +317,10 @@ public class Main {
 					if(currentGame != null){
 						currentGame.kill();
 						currentGame = null;
-						musicPlayer.stop();
-						musicPlayer = new Music(menuMusicQueue);
-						musicPlayer.play();
 					}
-					
+					musicPlayer.stop();
+					musicPlayer.setList(menuMusicQueue);
+					musicPlayer.play();
 
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
