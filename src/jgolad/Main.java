@@ -55,10 +55,11 @@ public class Main {
 	private static JFrame frame;
 	
 	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
-	private static final String[] gameMusicQueue = {};//"gameMus1.wav","gameMus2.wav"};
+	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};
 	private static Music musicPlayer = new Music(menuMusicQueue);
 	
 	public static void main(String[] args) {
+		
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
@@ -71,7 +72,6 @@ public class Main {
 
 		Font optionFont = new Font("Calibri", 0, 40);
 		Font plrFont = new Font("Tahoma", 0, 20);
-		
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 			TinyThing tinything = IntroCrap.getRandomTinyThing();
@@ -256,10 +256,14 @@ public class Main {
 					if (e.getKeyCode() == KeyEvent.VK_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
-						musicPlayer.newSong(gameMusicQueue);
+						musicPlayer.stop();
+						musicPlayer.setList(gameMusicQueue);
+						musicPlayer.play();
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
-						musicPlayer.newSong(gameMusicQueue);
+						musicPlayer.stop();
+						musicPlayer.setList(gameMusicQueue);
+						musicPlayer.play();
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
 						ExtrasMenu em = new ExtrasMenu();
 						em.setVisible(true);
@@ -314,8 +318,10 @@ public class Main {
 						currentGame.kill();
 						currentGame = null;
 					}
-					musicPlayer.newSong(menuMusicQueue);
-					//musicPlayer.stop();
+					musicPlayer.stop();
+					musicPlayer.setList(menuMusicQueue);
+					musicPlayer.play();
+
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
@@ -345,7 +351,7 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		repainter.start();
-		musicPlayer.start();
+		musicPlayer.play();
 	}
 
 	public static void setCurrentGame(Game g){
