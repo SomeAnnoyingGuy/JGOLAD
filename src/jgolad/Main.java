@@ -257,12 +257,12 @@ public class Main {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
 						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
+						musicPlayer = new Music(gameMusicQueue);
 						musicPlayer.play();
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
 						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
+						musicPlayer=new Music(gameMusicQueue);
 						musicPlayer.play();
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
 						ExtrasMenu em = new ExtrasMenu();
