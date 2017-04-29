@@ -1,7 +1,17 @@
 package util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import game.board.Board;
 import game.board.Cellstate;
+import jgolad.Main;
 
 public abstract class ShuffleAlgorithm {
 	private String name;
@@ -210,11 +220,105 @@ public abstract class ShuffleAlgorithm {
 		}
 	}, new ShuffleAlgorithm("Befunge... cuz why not? -IQuick 2017") {
 		@Override
-		public void shuffle(Board bo, int w, int h) {
+		public void shuffle(Board b, int w, int h) {
+			String[] choices = {"Load from file", "Load from user"};
+			String choice = WinUtil.getChoice("Choose program:", choices);
+			String[] code = {};
+			String input = "";
+			if (choice == choices[0]) {
+				File codeFile = WinUtil.getUserFile(Main.getFrame());
+				Scanner codeIn = null;
+				try {
+					codeIn = new Scanner(codeFile);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				List<String> temp = new ArrayList<String>();
+				while (codeIn.hasNextLine()) {
+					temp.add(codeIn.nextLine());
+				}
+				code = temp.toArray(new String[0]);
+				codeIn.close();
+			} else {
+				code = WinUtil.getLargeInput("Type code:").split("\n");
+			}
+			String[] choices1 = {"Load from file", "Load from user", "No input"};
+			choice = WinUtil.getChoice("Choose input:", choices1);
 			
+			if (choice == choices1[0]) {
+				File inputFile = WinUtil.getUserFile(Main.getFrame());
+				try {
+					FileInputStream fis = new FileInputStream(inputFile);
+					byte[] data = new byte[(int) inputFile.length()];
+					fis.read(data);
+					fis.close();
+					input = new String(data, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (choice == choices1[1]){
+				input = WinUtil.getLargeInput("Write input for program:");
+			} else {
+				input = "";
+			}
+			
+			if (WinUtil.getYN("Append board size (width, height) before start of input?")) {
+				input = w +" "+ h +" "+ input;
+			}
+			
+			BefungeInterpreter BFDI = new BefungeInterpreter();
+			
+			int maxTime = Math.max(Math.min(WinUtil.getInputInt("Set maximum amout of time for code to run in ms (between 100 - 60000)", 15000), 60000), 100);
+			BFDI.setTime((long) maxTime);
+			
+			try {
+				BFDI.Execute(code, input);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			String output = BFDI.getOutput();
+			
+			String[] choices2 = {"x, y", "x, y, v", "Non whitespace -> alive"};
+			String OutputInterpretation = WinUtil.getChoice("Select program output interpretation:", choices2);
+			
+			if (OutputInterpretation == choices2[0]) {
+				Scanner sc = new Scanner(output);
+				while (sc.hasNextInt()) {
+					int temp = sc.nextInt();
+					if (sc.hasNextInt()) {
+						b.setAt(temp, sc.nextInt(), Cellstate.NEUTRAL.getID());
+					}
+				}
+				sc.close();
+			} else if (OutputInterpretation == choices2[1]) {
+				Scanner sc = new Scanner(output);
+				Cellstate[] states = Cellstate.getAll().toArray(new Cellstate[0]);
+				while (sc.hasNextInt()) {
+					int temp = sc.nextInt();
+					if (sc.hasNextInt()) {
+						int temp2 = sc.nextInt();
+						if (sc.hasNextInt()) {
+							b.setAt(temp, temp2, states[sc.nextInt() % states.length].getID());
+						}
+					}
+				}
+				sc.close();
+			} else if (OutputInterpretation == choices2[2]) {
+				for (int i = 0; i < output.length(); i++) {
+					if (output.charAt(i) != ' ') {
+						if (Math.floorDiv(i, w) >= h) {
+							break;
+						}
+						b.setAt(i % w, Math.floorDiv(i, w), Cellstate.NEUTRAL.getID());
+					}
+				}
+			}
 		}
 	}};
-
+	
 	public void shuffle(Board board) {
 		shuffle(board, board.getWidth(), board.getHeight());
 	}

@@ -2,6 +2,7 @@ package util;
 
 import java.util.Stack;
 
+//Befunge-93 interpreter written by IQuick
 public class BefungeInterpreter {
 	
 	//0 - UP 1 - RIGHT 2 - DOWN 3 - LEFT
@@ -12,7 +13,7 @@ public class BefungeInterpreter {
 	private int x = 0;
 	private int y = 0;
 	private boolean stringmode = false;
-	private Stack<Integer> memory = new Stack();
+	private Stack<Integer> memory = new Stack<Integer>();
 	private String input;
 	private String output = "";
 	private long maxTime = 15000;
@@ -49,6 +50,7 @@ public class BefungeInterpreter {
 			}
 		}
 		if (width < 1) throw new IllegalArgumentException("Width of code is:"+width);
+		board = new char[height][width];
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (i > code[j].length() - 1) {
@@ -61,7 +63,7 @@ public class BefungeInterpreter {
 		
 		//set the timer
 		long endTime = System.currentTimeMillis() + this.maxTime ;
-		//do shit
+		//do stuff
 		while (true) {
 			char current = board[this.y][this.x];
 			if (stringmode) {
@@ -90,14 +92,31 @@ public class BefungeInterpreter {
 				if (current == '#') {
 					Move(); //extra move will cause a skip
 				}
+				if (current == '|') {
+					if (popMemory() == 0) {
+						dir = 2;
+					} else {
+						dir = 0;
+					}
+				}
+				if (current == '_') {
+					if (popMemory() == 0) {
+						dir = 1;
+					} else {
+						dir = 3;
+					}
+				}
 				
 				//input handling
 				if (current == '&') {
 					int inputInt = 0;
-					String[] splited = input.split(" ");
 					try {
-						inputInt = Integer.parseInt(splited[0]);
-						input = input.substring(splited[0].length());
+						int i = 0;
+						while (i < input.length() && !Character.isDigit(input.charAt(i))) i++;
+						int j = i;
+						while (j < input.length() && Character.isDigit(input.charAt(j))) j++;
+						inputInt = Integer.parseInt(input.substring(i, j)); // might be an off-by-1 here
+						input = input.substring(Math.min(j+1,input.length()));
 					} catch (Exception e) {
 						inputInt = 0;
 					}
@@ -117,6 +136,15 @@ public class BefungeInterpreter {
 				if (current >= '0' && current <= '9') {
 					pushMemory(Character.getNumericValue(current));
 				}
+				if (current == 'g') {
+					int setY = popMemory();
+					int setX = popMemory();
+					if (setY < height && setY >= 0 && setX < width && setX >= 0) {
+						pushMemory(board[setY][setX]);
+					} else {
+						pushMemory(' ');
+					}
+				}
 				
 				//operations
 				if (current == '+') {
@@ -126,7 +154,7 @@ public class BefungeInterpreter {
 				}
 				if (current == '-') {
 					pushMemory(
-							popMemory() - popMemory()
+							-popMemory() + popMemory()
 							);
 				}
 				if (current == '*') {
@@ -135,15 +163,24 @@ public class BefungeInterpreter {
 							);
 				}
 				if (current == '/') {
+					int value1 = popMemory();
+					int value2 = popMemory();
 					pushMemory(
-							Math.floorDiv(popMemory(), popMemory())
+							(value1 != 0)?(int) Math.floor(value2/value1):0
+							);
+				}
+				if (current == '%') {
+					int value1 = popMemory();
+					int value2 = popMemory();
+					pushMemory(
+							(value1 != 0)?value2 % value1:0
 							);
 				}
 				if (current == '!') {
 					pushMemory((popMemory() == 0)?1:0);
 				}
 				if (current == '`') {
-					pushMemory((popMemory() > popMemory())?1:0);
+					pushMemory((popMemory() < popMemory())?1:0);
 				}
 				if (current == ':') {
 					int value = popMemory();
@@ -160,12 +197,28 @@ public class BefungeInterpreter {
 					pushMemory(value2);
 				}
 				
+				//output handling
+				if (current == '.') {
+					output += popMemory() + " ";
+				}
+				if (current == ',') {
+					output += (char) popMemory();
+				}
+				if (current == 'p') {
+					int setY = popMemory();
+					int setX = popMemory();
+					int value = popMemory();
+					if (setY < height && setY >= 0 && setX < width && setX >= 0) {
+						board[setY][setX] = (char) value;
+					}
+				}
+				
 				if (current == '@') {
 					break;
 				}
 			}
 			
-			if (endTime > System.currentTimeMillis()) {
+			if (endTime < System.currentTimeMillis()) {
 				throw new Exception("Program timed out");
 			}
 			
@@ -208,5 +261,13 @@ public class BefungeInterpreter {
 	
 	private void pushMemory(int value) {
 		memory.push(value);
+	}
+	
+	public String getOutput() {
+		return output;
+	}
+	
+	public void setTime(long timeMilis) {
+		maxTime = timeMilis;
 	}
 }
