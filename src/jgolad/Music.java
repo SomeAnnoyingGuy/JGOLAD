@@ -167,8 +167,10 @@ public class Music implements Runnable{
 	public void onResume(){}
 	
 	public void stop() 
-	{	
+	{	pauseFlag = true;
+		isPlayingFlag=false;
 		stopFlag = true;
+		player.interrupt();
 	}
 	
 	public void onStop(){
