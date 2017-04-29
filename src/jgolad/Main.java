@@ -31,6 +31,7 @@ import game.rules.LifeRules;
 import util.ImageUtil;
 import util.IntroCrap;
 import util.TinyThing;
+import window.ExtrasMenu;
 import window.GameSetupWindow;
 
 public class Main {
@@ -53,6 +54,10 @@ public class Main {
 	private static JPanel panel;
 	private static JFrame frame;
 	
+	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
+	private static final String[] gameMusicQueue = {};//"gameMus1.wav","gameMus2.wav"};
+	private static Music musicPlayer = new Music(menuMusicQueue);
+	
 	public static void main(String[] args) {
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
@@ -66,7 +71,7 @@ public class Main {
 
 		Font optionFont = new Font("Calibri", 0, 40);
 		Font plrFont = new Font("Tahoma", 0, 20);
-
+		
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 			TinyThing tinything = IntroCrap.getRandomTinyThing();
@@ -184,7 +189,7 @@ public class Main {
 					g.setFont(optionFont);
 					g.drawString("[1] Local Game (WIP)", 100, lh+100);
 					g.drawString("[2] Sandbox", 125, lh+150);
-					g.drawString("[3] Rule Guesser", 150, lh+200);
+					g.drawString("[3] Extras", 150, lh+200);
 				}
 			}
 		};
@@ -193,7 +198,7 @@ public class Main {
 		frame.add(panel);
 		frame.pack();
 		frame.setMinimumSize(frame.getSize());
-
+		
 		panel.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -251,10 +256,13 @@ public class Main {
 					if (e.getKeyCode() == KeyEvent.VK_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
+						musicPlayer.newSong(gameMusicQueue);
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
+						musicPlayer.newSong(gameMusicQueue);
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
-						Guesser.start();
+						ExtrasMenu em = new ExtrasMenu();
+						em.setVisible(true);
 					}
 				}else{
 					if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
@@ -306,6 +314,8 @@ public class Main {
 						currentGame.kill();
 						currentGame = null;
 					}
+					musicPlayer.newSong(menuMusicQueue);
+					//musicPlayer.stop();
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
@@ -334,8 +344,8 @@ public class Main {
 
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
 		repainter.start();
+		musicPlayer.start();
 	}
 
 	public static void setCurrentGame(Game g){
@@ -343,6 +353,7 @@ public class Main {
 		if(g != null){
 			g.start();
 		}
+		
 	}
 		
 	public static Board getCurrentBoard(){
