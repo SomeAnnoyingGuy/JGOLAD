@@ -58,8 +58,9 @@ public class Main {
 	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};
 	private static Music musicPlayer = new Music(menuMusicQueue);
 	
+	public static final boolean MUSIC_ENABLED = false;
+	
 	public static void main(String[] args) {
-		
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
@@ -256,14 +257,18 @@ public class Main {
 					if (e.getKeyCode() == KeyEvent.VK_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
-						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
-						musicPlayer.play();
+						if(MUSIC_ENABLED){
+							musicPlayer.stop();
+							musicPlayer.setList(gameMusicQueue);
+							musicPlayer.play();
+						}
 					}else if (e.getKeyCode() == KeyEvent.VK_1) {
 						setCurrentGame(GameSetupWindow.createGame());
-						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
-						musicPlayer.play();
+						if(MUSIC_ENABLED){
+							musicPlayer.stop();
+							musicPlayer.setList(gameMusicQueue);
+							musicPlayer.play();
+						}
 					}else if (e.getKeyCode() == KeyEvent.VK_3) {
 						ExtrasMenu em = new ExtrasMenu();
 						em.setVisible(true);
@@ -318,10 +323,11 @@ public class Main {
 						currentGame.kill();
 						currentGame = null;
 					}
-					musicPlayer.stop();
-					musicPlayer.setList(menuMusicQueue);
-					musicPlayer.play();
-
+					if(MUSIC_ENABLED){
+						musicPlayer.stop();
+						musicPlayer.setList(menuMusicQueue);
+						musicPlayer.play();
+					}
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
@@ -351,7 +357,10 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		repainter.start();
-		musicPlayer.play();
+		
+		if(MUSIC_ENABLED){
+			musicPlayer.play();
+		}
 	}
 
 	public static void setCurrentGame(Game g){
