@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,9 +8,10 @@ import java.util.Iterator;
 import game.board.Board;
 import game.rules.LifeRules;
 import jgolad.Main;
+import jgolad.Screen;
 import util.WinUtil;
 
-public abstract class Game {
+public abstract class Game extends Screen {
 	private Board board = null;
 	private LifeRules rules = null;
 
@@ -26,6 +28,11 @@ public abstract class Game {
 
 	public void setBoard(Board board) {
 		this.board = board;
+	}
+	
+	@Override
+	public void render(Graphics g) {
+		
 	}
 	
 	public abstract void start();

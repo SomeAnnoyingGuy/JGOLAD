@@ -36,11 +36,12 @@ import window.GameSetupWindow;
 
 public class Main {
 	public static int FPS = 20;
-
+	
 	public static Dimension PANEL_SIZE = new Dimension(1000, 700);
-
+	
+	private static Screen currentScreen = null;
 	private static Game currentGame = null;
-
+	
 	private static BufferedImage boardCacheImage;
 	private static boolean spaceDown = false;
 	private static boolean predictions,mousePreview;
@@ -53,6 +54,7 @@ public class Main {
 	
 	private static JPanel panel;
 	private static JFrame frame;
+	private static Settings Settings = new Settings();
 	
 	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
 	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};
@@ -67,9 +69,9 @@ public class Main {
 		frame.setIgnoreRepaint(true);
 		frame.setIconImage(ImageUtil.loadImage("/tinylogo.png"));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		BufferedImage logo = ImageUtil.loadImage("/Logo.png");
-
+		
 		Font optionFont = new Font("Calibri", 0, 40);
 		Font plrFont = new Font("Tahoma", 0, 20);
 		panel = new JPanel() {
@@ -79,7 +81,7 @@ public class Main {
 			int timeThing = 0;
 			double timeFade = timeThingMax / 4;
 			double fade = timeFade;
-
+			
 			@Override
 			public void paintComponent(Graphics gee) {
 				Graphics2D g = (Graphics2D) gee;
@@ -94,8 +96,9 @@ public class Main {
 				
 				Board board = getCurrentBoard();
 				
+				//board render code
 				if (board != null) {
-					if(board.isChanged()){
+					if (board.isChanged()) {
 						boolean showP = predictions;
 						boolean showMouseOver = mousePreview;
 						int cacheSize = cellSize;
@@ -165,7 +168,9 @@ public class Main {
 						}
 						pCount++;
 					}
-				} else {
+				}
+				//heres the code for mainMenu
+				else {
 					int lh = (int) ((double) logo.getHeight() * ((double) w / (double) logo.getWidth()));
 					g.drawImage(logo, 0, 0, w, lh, null);
 					timeThing++;
@@ -203,7 +208,7 @@ public class Main {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 			}
-
+			
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if (getCurrentBoard() != null) {
@@ -222,7 +227,7 @@ public class Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
-
+			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Game game = getCurrentGame();
@@ -230,25 +235,26 @@ public class Main {
 					game.onMousePress(e);
 				}
 			}
-
+			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
-
+			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
-
+			
 			@Override
 			public void mouseExited(MouseEvent e) {
 			}
 		});
-
+		
 		frame.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
-
+			
+			//TAKE CODES FOR DEFAULT FROM HERE
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (currentGame == null) {
@@ -283,7 +289,7 @@ public class Main {
 					}
 				}
 			}
-
+			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
@@ -321,21 +327,22 @@ public class Main {
 					musicPlayer.stop();
 					musicPlayer.setList(menuMusicQueue);
 					musicPlayer.play();
-
+					
 				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
 						((GameLocal)g).space();
 					}
-				}else if(e.getKeyCode() == KeyEvent.VK_S){
+				}else if(e.getKeyCode() == Settings.getKey("SaveImg")){
 					Board board = getCurrentBoard();
 					if(board != null){
 						board.saveImage();
 					}
 				}
 			}
+			//STOP HERE
 		});
-
+		
 		Timer repainter = new Timer(1000 / FPS, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -347,13 +354,13 @@ public class Main {
 		});
 		//Static declarations may need to 'catch up'
 		repainter.setInitialDelay(repainter.getDelay()*2);
-
+		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		repainter.start();
 		musicPlayer.play();
 	}
-
+	
 	public static void setCurrentGame(Game g){
 		currentGame = g;
 		if(g != null){
@@ -361,22 +368,22 @@ public class Main {
 		}
 		
 	}
-		
+	
 	public static Board getCurrentBoard(){
 		if(currentGame == null){
 			return null;
 		}
 		return currentGame.getBoard();
 	}
-
+	
 	public static Game getCurrentGame() {
 		return currentGame;
 	}
-
+	
 	public static JFrame getFrame() {
 		return frame;
 	}
-
+	
 	public static void invalidateBoardCache() {
 		boardCacheImage = null;
 	}
