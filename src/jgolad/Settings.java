@@ -20,6 +20,9 @@ public class Settings {
 		defaultControls.put("MENU_4", KeyEvent.VK_4);
 		
 		defaultControls.put("Space", KeyEvent.VK_SPACE);
+		defaultControls.put("Esc", KeyEvent.VK_ESCAPE);
+		
+		defaultControls.put("tglPred", KeyEvent.VK_P);
 		defaultControls.put("SaveImg", KeyEvent.VK_S);
 		
 		return defaultControls;

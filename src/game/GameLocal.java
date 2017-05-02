@@ -91,7 +91,7 @@ public class GameLocal extends Game {
 			it.next().onCellClick(super.getBoard(), Main.mouseCellX, Main.mouseCellY);
 		}
 		if (waitingOnHuman) {
-			Main.invalidateBoardCache();
+			super.invalidateBoardCache();
 			maskBoard = super.getBoard().duplicate();
 			if (maskBoard.isInBounds(Main.mouseCellX, Main.mouseCellY)) {
 				maskBoard.setAt(Main.mouseCellX, Main.mouseCellY, waitingHumanCell);
