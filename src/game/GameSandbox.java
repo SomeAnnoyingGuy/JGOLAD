@@ -40,15 +40,15 @@ public class GameSandbox extends Game {
 	}
 
 	public void onMousePress(MouseEvent e) {
-		System.out.println("SANDBOX HEARD A MOUSE CLICK ON CELL: "+Main.mouseCellX+" "+Main.mouseCellY);
+		System.out.println("SANDBOX HEARD A MOUSE CLICK ON CELL: "+mouseCellX+" "+mouseCellY);
 		Board b = getBoard();
-		if (b.isInBounds(Main.mouseCellX, Main.mouseCellY)) {
+		if (b.isInBounds(mouseCellX, mouseCellY)) {
 			if (e.getButton() == 1) {
 				System.out.println("Setting cell to:"+Main.sandboxByte);
-				b.setAt(Main.mouseCellX, Main.mouseCellY, Main.sandboxByte);
+				b.setAt(mouseCellX, mouseCellY, Main.sandboxByte);
 			} else {
 				//Main.sandboxByte = b.getAt(Main.mouseCellX, Main.mouseCellY);
-				Byte id = b.getAt(Main.mouseCellX, Main.mouseCellY);
+				Byte id = b.getAt(mouseCellX, mouseCellY);
 				Cellstate cs = Cellstate.getStateFromID(id);
 				spw.setActiveCellstate(cs);
 			}

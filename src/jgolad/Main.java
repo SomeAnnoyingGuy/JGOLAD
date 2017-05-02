@@ -25,6 +25,7 @@ import game.board.Board;
 import game.rules.LifeRules;
 import jgolad.screens.MainMenu;
 import jgolad.screens.Screen;
+import jgolad.screens.SettingsMenu;
 import util.ImageUtil;
 import window.ExtrasMenu;
 import window.GameSetupWindow;
@@ -40,9 +41,6 @@ public class Main {
 	private static boolean spaceDown = false;
 	private static boolean predictions,mousePreview;
 	private static int cellSize = 10;
-	private static int cSize = 300;
-	
-	public static int mouseCellX,mouseCellY;
 	
 	public static byte sandboxByte = 1;
 
@@ -51,7 +49,7 @@ public class Main {
 	
 	private static JPanel panel;
 	private static JFrame frame;
-	private static Settings Settings = new Settings();
+	public static Settings settings = new Settings();
 	
 	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
 	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};
@@ -75,7 +73,6 @@ public class Main {
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				w = this.getWidth();
 				h = this.getHeight();
-				cSize = w-h;
 				System.out.println(h+" "+w);
 				g.setColor(Color.BLACK);
 				g.fillRect(0, 0, w, h);
@@ -97,15 +94,9 @@ public class Main {
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if (getCurrentBoard() != null) {
-					Board b = getCurrentBoard();
-					double panelToImageScaleW = (double)(b.getWidth()*cellSize)/(panel.getWidth()-cSize);
-					double panelToImageScaleH = (double)(b.getHeight()*cellSize)/(panel.getHeight());
-					mouseCellX = (int) (((double)(e.getX()*panelToImageScaleW))/cellSize);
-					mouseCellY = (int) (((double)(e.getY()*panelToImageScaleH))/cellSize);
-					if(mousePreview){
-						getCurrentBoard().setChanged(true);
-					}
+				Game g = getCurrentGame();
+				if (g != null) {
+					g.onMouseMotion(e);
 				}
 			}
 		});
@@ -143,31 +134,33 @@ public class Main {
 			public void keyPressed(KeyEvent e) {
 				if (currentGame == null) {
 					spaceDown = false;
-					if (e.getKeyCode() == Settings.getKey("MENU_2")) {
+					if (e.getKeyCode() == settings.MENU_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
 						musicPlayer.stop();
 						musicPlayer.setList(gameMusicQueue);
 						musicPlayer.play();
-					}else if (e.getKeyCode() == Settings.getKey("MENU_1")) {
+					} else if (e.getKeyCode() == settings.MENU_1) {
 						setCurrentGame(GameSetupWindow.createGame());
 						musicPlayer.stop();
 						musicPlayer.setList(gameMusicQueue);
 						musicPlayer.play();
-					}else if (e.getKeyCode() == Settings.getKey("MENU_3")) {
+					} else if (e.getKeyCode() == settings.MENU_3) {
 						ExtrasMenu em = new ExtrasMenu();
 						em.setVisible(true);
+					} else if (e.getKeyCode() == settings.MENU_4) {
+						setCurrentScreen(new SettingsMenu());
 					}
-				}else{
+				} else {
 					if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
 						spaceDown = true;
-					}else if(e.getKeyCode() == Settings.getKey("tglPred")){
+					} else if (e.getKeyCode() == settings.tglPred){
 						predictions = !predictions;
 						Board b = getCurrentBoard();
 						if(b != null){
 							b.setChanged(true);
 						}
-					}else if(e.getKeyCode() == KeyEvent.VK_M){
+					} else if (e.getKeyCode() == KeyEvent.VK_M) {
 						mousePreview = !mousePreview;
 						getCurrentBoard().setChanged(true);
 					}
@@ -178,12 +171,12 @@ public class Main {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
 					spaceDown = false;
-				}else if(e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET){
+				} else if(e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
 					Board b = getCurrentBoard();
 					if(b != null){
 						b.updateAll(getCurrentGame(),getCurrentGame().getRules());
 					}
-				}else if(e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET){
+				} else if(e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET) {
 					Board b = getCurrentBoard();
 					if(b != null){
 						int amount = 0;
@@ -194,16 +187,16 @@ public class Main {
 						}else{
 							amount = 10;
 						}
-						for(int i = 0; i < amount; i++){
+						for(int i = 0; i < amount; i++) {
 							b.updateAll(getCurrentGame(),getCurrentGame().getRules());
 						}
 					}
-				}else if(e.getKeyCode() == KeyEvent.VK_C){
+				} else if(e.getKeyCode() == KeyEvent.VK_C) {
 					Game ga = getCurrentGame();
 					if(ga != null){
 						ga.getBoard().updateCensus();
 					}
-				}else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				} else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					if(currentGame != null){
 						currentGame.kill();
 						currentGame = null;
@@ -212,12 +205,12 @@ public class Main {
 					musicPlayer.setList(menuMusicQueue);
 					musicPlayer.play();
 					
-				}else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
 						((GameLocal)g).space();
 					}
-				}else if(e.getKeyCode() == Settings.getKey("SaveImg")){
+				} else if (e.getKeyCode() == settings.SaveImg) {
 					Board board = getCurrentBoard();
 					if(board != null){
 						board.saveImage();

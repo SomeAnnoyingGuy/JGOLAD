@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -24,8 +23,9 @@ public abstract class Game extends Screen {
 	private BufferedImage boardCacheImage = null;
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private int mouseCellX;
-	private int mouseCellY;
+	protected int mouseCellX;
+	protected int mouseCellY;
+	private int cSize;
 	
 	public Game(Board board, LifeRules rules){
 		this.board = board;
@@ -79,7 +79,7 @@ public abstract class Game extends Screen {
 					if(showMouseOver){
 						cellColor = Cellstate.getStateFromID(Main.sandboxByte).getColor();
 						imgG.setColor(cellColor);
-						if(cellColor != null && x==Main.mouseCellX && y==Main.mouseCellY){
+						if(cellColor != null && x==mouseCellX && y==mouseCellY){
 							g.setColor(cellColor);
 							imgG.drawRect(rx+1, ry+1, rs-2, rs-2);
 						}
@@ -91,7 +91,7 @@ public abstract class Game extends Screen {
 				}
 			}
 		}
-		int cSize = w-h;
+		cSize = w-h;
 		int cStart = w-cSize; //w-(w-h) = h ???
 		g.drawImage(boardCacheImage, 0, 0, cStart, h, null);
 		board.setChanged(false);

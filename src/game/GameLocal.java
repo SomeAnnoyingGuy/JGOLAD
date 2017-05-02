@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import game.board.Board;
 import game.rules.LifeRules;
-import jgolad.Main;
 
 public class GameLocal extends Game {
 	private int playerID = 0;
@@ -88,13 +87,13 @@ public class GameLocal extends Game {
 	public void onMousePress(MouseEvent e) {
 		Iterator<Player> it = this.getPlayers().iterator();
 		while (it.hasNext()) {
-			it.next().onCellClick(super.getBoard(), Main.mouseCellX, Main.mouseCellY);
+			it.next().onCellClick(super.getBoard(), mouseCellX, mouseCellY);
 		}
 		if (waitingOnHuman) {
 			super.invalidateBoardCache();
 			maskBoard = super.getBoard().duplicate();
-			if (maskBoard.isInBounds(Main.mouseCellX, Main.mouseCellY)) {
-				maskBoard.setAt(Main.mouseCellX, Main.mouseCellY, waitingHumanCell);
+			if (maskBoard.isInBounds(mouseCellX, mouseCellY)) {
+				maskBoard.setAt(mouseCellX, mouseCellY, waitingHumanCell);
 			}
 		}
 	}

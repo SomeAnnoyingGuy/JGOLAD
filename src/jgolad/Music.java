@@ -98,7 +98,7 @@ public class Music implements Runnable{
                 		isPlayingFlag = false;
                 	}
                 	if(stopFlag){
-                		//throw new IOException();
+                		throw new IOException();
                 	}
                 }         
 
