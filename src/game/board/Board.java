@@ -69,7 +69,7 @@ public class Board implements Serializable {
 		setChanged(true);
 		census.modScore(getAt(x,y), -1);
 		census.modScore(b, 1);
-		getCellArr()[x][y] = b;
+		cellArr[x][y] = b;
 	}
 
 	public int[] forceIntoBounds(int x, int y){
