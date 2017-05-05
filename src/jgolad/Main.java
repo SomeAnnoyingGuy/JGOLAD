@@ -138,12 +138,12 @@ public class Main {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
 						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
+						musicPlayer = new Music(gameMusicQueue);
 						musicPlayer.play();
 					} else if (e.getKeyCode() == settings.MENU_1) {
 						setCurrentGame(GameSetupWindow.createGame());
 						musicPlayer.stop();
-						musicPlayer.setList(gameMusicQueue);
+						musicPlayer = new Music(gameMusicQueue);
 						musicPlayer.play();
 					} else if (e.getKeyCode() == settings.MENU_3) {
 						ExtrasMenu em = new ExtrasMenu();
@@ -200,9 +200,12 @@ public class Main {
 					if(currentGame != null){
 						currentGame.kill();
 						currentGame = null;
+            musicPlayer.stop();
+						musicPlayer = new Music(menuMusicQueue);
+						musicPlayer.play();
 					}
 					musicPlayer.stop();
-					musicPlayer.setList(menuMusicQueue);
+				  musicPlayer = new Music(menuMusicQueue);
 					musicPlayer.play();
 					
 				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
