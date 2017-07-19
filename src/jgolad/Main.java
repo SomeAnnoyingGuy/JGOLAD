@@ -50,11 +50,7 @@ public class Main {
 	private static JPanel panel;
 	private static JFrame frame;
 	public static Settings settings = new Settings();
-	
-	private static final String[] menuMusicQueue = {"JGOLAD Menu Theme.wav"};
-	private static final String[] gameMusicQueue = {"gameMus1.wav","gameMus2.wav"};
-	private static Music musicPlayer = new Music(menuMusicQueue);
-	
+		
 	public static void main(String[] args) {
 		
 		ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -73,7 +69,7 @@ public class Main {
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				w = this.getWidth();
 				h = this.getHeight();
-				System.out.println(h+" "+w);
+				//System.out.println(h+" "+w);
 				g.setColor(Color.BLACK);
 				g.fillRect(0, 0, w, h);
 				
@@ -137,14 +133,8 @@ public class Main {
 					if (e.getKeyCode() == settings.MENU_2) {
 						Board b = new Board(20);
 						setCurrentGame(new GameSandbox(b, LifeRules.rulesGOL));
-						musicPlayer.stop();
-						musicPlayer = new Music(gameMusicQueue);
-						musicPlayer.play();
 					} else if (e.getKeyCode() == settings.MENU_1) {
 						setCurrentGame(GameSetupWindow.createGame());
-						musicPlayer.stop();
-						musicPlayer = new Music(gameMusicQueue);
-						musicPlayer.play();
 					} else if (e.getKeyCode() == settings.MENU_3) {
 						ExtrasMenu em = new ExtrasMenu();
 						em.setVisible(true);
@@ -200,14 +190,7 @@ public class Main {
 					if(currentGame != null){
 						currentGame.kill();
 						currentGame = null;
-            musicPlayer.stop();
-						musicPlayer = new Music(menuMusicQueue);
-						musicPlayer.play();
 					}
-					musicPlayer.stop();
-				  musicPlayer = new Music(menuMusicQueue);
-					musicPlayer.play();
-					
 				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					Game g = getCurrentGame();
 					if(g instanceof GameLocal){
@@ -238,7 +221,6 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		repainter.start();
-		musicPlayer.play();
 	}
 	
 	public static void setCurrentGame(Game g){
